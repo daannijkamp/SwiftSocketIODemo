@@ -48,7 +48,7 @@ class ViewController: UIViewController, SRWebSocketDelegate {
         
         var jsonSendError:NSError?
         var jsonSend = NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions(0), error: &jsonSendError)
-        var jsonString = NSString(data: jsonSend, encoding: NSUTF8StringEncoding)
+        var jsonString = NSString(data: jsonSend!, encoding: NSUTF8StringEncoding)
         println("JSON SENT \(jsonString)")
         
         let str:NSString = "5:::\(jsonString)"
@@ -56,7 +56,7 @@ class ViewController: UIViewController, SRWebSocketDelegate {
     }
     
     // SWIFT REQUIREMENTS
-    required init(coder aDecoder: NSCoder!) {
+    required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -87,7 +87,7 @@ class ViewController: UIViewController, SRWebSocketDelegate {
         var endpoint = "http://\(server)/socket.io/1?t=\(time)"
         
         var handshakeTask:NSURLSessionTask = session!.dataTaskWithURL(NSURL.URLWithString(endpoint), completionHandler: { (data:NSData!, response:NSURLResponse!, error:NSError!) in
-            if !error {
+            if error != nil {
                 let stringData:NSString = NSString(data: data, encoding: NSUTF8StringEncoding)
                 let handshakeToken:NSString = stringData.componentsSeparatedByString(":")[0] as NSString
                 println("HANDSHAKE \(handshakeToken)")
@@ -110,7 +110,7 @@ class ViewController: UIViewController, SRWebSocketDelegate {
         
         var jsonError:NSError?
         let messageArray = (message as NSString).componentsSeparatedByString(":::")
-        let data:NSData = messageArray[messageArray.endIndex - 1].dataUsingEncoding(NSUTF8StringEncoding)
+        let data:NSData = messageArray[messageArray.endIndex - 1].dataUsingEncoding(NSUTF8StringEncoding)!
         var json:AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &jsonError)
         
         if json != nil {
@@ -136,7 +136,7 @@ class ViewController: UIViewController, SRWebSocketDelegate {
         ]
         var jsonSendError:NSError?
         var jsonSend = NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions(0), error: &jsonSendError)
-        var jsonString = NSString(data: jsonSend, encoding: NSUTF8StringEncoding)
+        var jsonString = NSString(data: jsonSend!, encoding: NSUTF8StringEncoding)
         println("JSON SENT \(jsonString)")
         let str:NSString = "5:::\(jsonString)"
         socketio?.send(str)
@@ -149,7 +149,7 @@ class ViewController: UIViewController, SRWebSocketDelegate {
         ]
         var jsonSendError:NSError?
         var jsonSend = NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions(0), error: &jsonSendError)
-        var jsonString = NSString(data: jsonSend, encoding: NSUTF8StringEncoding)
+        var jsonString = NSString(data: jsonSend!, encoding: NSUTF8StringEncoding)
         println("JSON SENT \(jsonString)")
         let str:NSString = "5:::\(jsonString)"
         socketio?.send(str)
@@ -162,7 +162,7 @@ class ViewController: UIViewController, SRWebSocketDelegate {
         ]
         var jsonSendError:NSError?
         var jsonSend = NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions(0), error: &jsonSendError)
-        var jsonString = NSString(data: jsonSend, encoding: NSUTF8StringEncoding)
+        var jsonString = NSString(data: jsonSend!, encoding: NSUTF8StringEncoding)
         println("JSON SENT \(jsonString)")
         let str:NSString = "5:::\(jsonString)"
         socketio?.send(str)
